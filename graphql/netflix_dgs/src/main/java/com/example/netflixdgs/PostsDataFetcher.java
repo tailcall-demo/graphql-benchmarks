@@ -1,56 +1,23 @@
 package com.example.netflixdgs;
 
-import java.net.URI;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsQuery;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
-import reactor.netty.http.client.HttpClient;
-import reactor.netty.transport.ProxyProvider;
 
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 
 @DgsComponent
 public class PostsDataFetcher {
-	// private final WebClient webClient;
   private final RestTemplate restTemplate;
 
  	@Autowired
-  public PostsDataFetcher(RestTemplate restTemplate) {
-    this.restTemplate = restTemplate;
-  }
-
-
-	// @Autowired
-	// public PostsDataFetcher(WebClient.Builder webClientBuilder) {
-	// 	this.webClient = webClientBuilder
-	// 	.clientConnector(new ReactorClientHttpConnector(build()))
-	// 	.build();
-	// }
-
-// 	private HttpClient build() {
-//         HttpClient httpClient = HttpClient.create()
-// 						.proxy(proxy -> proxy.type(ProxyProvider.Proxy.HTTP)
-//                                    .host("localhost")
-//                                    .port(8080));
-//         return httpClient;
-// }
-
-	// private final User u = new User(1, "ABC", "abc", "a@b.com", "xyz", "www.something.com");
-
-	// private final List<Post> posts = List.of(
-	// 	new Post(1,1,"post 1", "abc", u),
-	// 	new Post(2,1,"post 2", "def", u),
-	// 	new Post(3,1,"post 3", "ghi", u)
-	// );
+  	public PostsDataFetcher(RestTemplate restTemplate) {
+    	this.restTemplate = restTemplate;
+  	}
 
 	@DgsQuery
 	public List<Post> posts() {
@@ -63,19 +30,8 @@ public class PostsDataFetcher {
             new ParameterizedTypeReference<List<Post>>() {}
         );
 
-				return responseEntity.getBody();
+		return responseEntity.getBody();
 				
-		// try {
-		// 	Mono<List<Post>> responseBody = webClient
-		// 		.get()
-		// 		.uri(new URI("http://jsonplaceholder.typicode.com/posts"))
-		// 		.retrieve()
-		// 		.bodyToMono(new ParameterizedTypeReference<List<Post>>() {});
-		// 	return responseBody.block();
-		// } catch (Exception e) {
-		// 	System.out.println(e.toString());
-		// 	return List.of();
-		// }
 	}
 }
 
